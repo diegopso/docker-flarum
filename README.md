@@ -143,6 +143,12 @@ docker-compose up -d mariadb
 docker-compose up -d flarum
 ```
 
+Alternative:
+
+```sh
+bash -c 'docker-compose up -d mariadb; sleep 300; docker-compose up -d flarum;'
+```
+
 * :warning: Your admin password must contain at least **8 characters** (FLARUM_ADMIN_PASS).
 * If you get an error 500 with _Something went wrong_ message, switch the `DEBUG` environment variable to `true` to see the actual error message in your browser.
 

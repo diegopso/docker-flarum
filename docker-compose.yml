@@ -2,10 +2,11 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/flarum:latest
-    container_name: flarum
+    image: mondedie/flarum:stable-v0.1.0-beta.12
+    command: /bin/sh -c 'sleep 300; /usr/local/bin/startup;'
     env_file:
       - ./.env
+    container_name: flarum
     volumes:
       - ./flarum/assets:/flarum/app/public/assets
       - ./flarum/extensions:/flarum/app/extensions
@@ -18,8 +19,6 @@ services:
   mariadb:
     image: mariadb:10.4
     container_name: mariadb
-    env_file:
-      - ./.env
     environment:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
