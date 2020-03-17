@@ -67,86 +67,24 @@
 
 ## Installation
 
-#### 1 - Pull flarum image
 
-```bash
-# Pull from hub.docker.com :
-docker pull mondedie/flarum:latest
+#### 1 - Configura Enviroment Variables
 
-# or build it manually :
-docker build -t mondedie/flarum:latest https://github.com/mondediefr/docker-flarum.git
-```
+Copy example env file and adequate values.
 
-#### 2 - Docker-compose.yml
-
-```yml
-version: "3"
-
-services:
-  flarum:
-    image: mondedie/flarum:latest
-    container_name: flarum
-    env_file:
-      - /mnt/docker/flarum/flarum.env
-    volumes:
-      - /mnt/docker/flarum/assets:/flarum/app/public/assets
-      - /mnt/docker/flarum/extensions:/flarum/app/extensions
-      - /mnt/docker/flarum/nginx:/etc/nginx/conf.d
-    depends_on:
-      - mariadb
-
-  mariadb:
-    image: mariadb:10.4
-    container_name: mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=xxxxxxxxxx
-      - MYSQL_DATABASE=flarum
-      - MYSQL_USER=flarum
-      - MYSQL_PASSWORD=xxxxxxxxxx
-    volumes:
-      - /mnt/docker/mysql/db:/var/lib/mysql
+```sh
+cp .env.example .env
+vi .env
 ```
 
 #### 3 - Run it
 
 You need a reverse proxy to access flarum, this is not described here. You can use the solution of your choice (Traefik, Nginx, Apache, Haproxy, Caddy, H2O...etc).
 
-Create a environment file (see docker-compose: /mnt/docker/flarum/flarum.env [here](https://github.com/mondediefr/docker-flarum/tree/master#2---docker-composeyml))
-
-```
-# vi /mnt/docker/flarum/flarum.env
-
-DEBUG=false
-FORUM_URL=http://domain.tld
-
-# Database configuration
-DB_HOST=mariadb
-DB_NAME=flarum
-DB_USER=flarum
-DB_PASS=xxxxxxxxxx
-DB_PREF=flarum_
-DB_PORT=3306
-
-# User admin flarum (environment variable for first installation)
-# /!\ admin password must contain at least 8 characters /!\
-FLARUM_ADMIN_USER=admin
-FLARUM_ADMIN_PASS=xxxxxxxxxx
-FLARUM_ADMIN_MAIL=admin@domain.tld
-FLARUM_TITLE=Test flarum
-```
-
 Run your docker-compose
 
 ```sh
-docker-compose up -d mariadb
-# Wait a moment for the creation of the database
-docker-compose up -d flarum
-```
-
-Alternative:
-
-```sh
-bash -c 'docker-compose up -d mariadb; sleep 300; docker-compose up -d flarum;'
+docker-compose up -d 
 ```
 
 * :warning: Your admin password must contain at least **8 characters** (FLARUM_ADMIN_PASS).
