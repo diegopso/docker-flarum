@@ -3,6 +3,7 @@ version: "3"
 services:
   flarum:
     image: mondedie/flarum:stable-v0.1.0-beta.12
+    restart: unless-stopped
     command: /bin/sh -c 'sleep 300; /usr/local/bin/startup;'
     env_file:
       - ./.env
@@ -18,6 +19,7 @@ services:
 
   mariadb:
     image: mariadb:10.4
+    restart: unless-stopped
     container_name: mariadb
     environment:
       - MYSQL_DATABASE=${DB_NAME}
